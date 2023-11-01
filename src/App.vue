@@ -1,50 +1,60 @@
 <template>
   <div>
-    <vue-select
-      :value="selectData"
-      @onChange="(e) => (selectData = e)"
-      :options="[
-        { label: 'Alishergdfsgdfssgd', value: 'alisher' },
-        { label: 'Alosha', value: 'alosha' },
-        { label: 'Aloshahgfdh', value: 'alosha1' },
-        { label: 'Aloshahjgfd', value: 'alosha2' },
-        { label: 'Aloshajhgdfjgr', value: 'alosha3' },
-        { label: 'Aloshabfdsbf', value: 'alosha4' },
-        { label: 'Aloshasecxgr', value: 'alosha5' },
-        { label: 'Aloshacxrsehgr', value: 'alosha6' },
-        { label: 'Alosha254', value: 'alosha7' },
-        { label: 'Alosha65', value: 'alosha8' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-        { label: 'Alosha1345', value: 'alosha9' },
-      ]"
-    />
+    <vue-select style="width: 200px" :value="selectData" @onChange="(e) => (selectData = e)">
+      <vue-option v-for="option in options" :key="option" :value="option.value">
+        <div>{{ option.name }}</div>
+      </vue-option>
+    </vue-select>
+    <vue-select style="width: 200px" :value="selectData" @onChange="(e) => (selectData = e)">
+      <vue-option v-for="option in options" :key="option" :value="option.value">
+        <div>{{ option.name }}</div>
+      </vue-option>
+    </vue-select>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import VueOption from "./UI/VueOption.vue";
 import VueSelect from "./UI/VueSelect.vue";
 
 export default defineComponent({
   name: "App",
   components: {
     VueSelect,
+    VueOption,
   },
   setup() {
-    const selectData = ref("alosha");
+    const selectData = ref("alosha6");
+
+    const options = ref([
+      { name: "Alisher1", value: "alosha1" },
+      { name: "Alisher2", value: "alosha2" },
+      { name: "Alisher3", value: "alosha3" },
+      { name: "Alisher4", value: "alosha4" },
+      { name: "Alisher5", value: "alosha5" },
+      { name: "Alisher6", value: "alosha6" },
+      { name: "Alisher7", value: "alosha7" },
+      { name: "Alisher8", value: "alosha8" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+      { name: "Alisher", value: "alosha" },
+    ]);
     return {
       selectData,
+      options,
     };
   },
 });
