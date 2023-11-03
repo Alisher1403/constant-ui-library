@@ -1,11 +1,11 @@
 <template>
   <div>
-    <vue-select style="width: 200px" :value="selectData" @onChange="(e) => (selectData = e)">
+    <vue-select style="width: 200px" :value="selectData" @onChange="handleClick">
       <vue-option v-for="option in options" :key="option" :value="option.value">
         <div>{{ option.name }}</div>
       </vue-option>
     </vue-select>
-    <vue-select style="width: 200px" :value="selectData" @onChange="(e) => (selectData = e)">
+    <vue-select style="width: 200px" :value="selectData" @onChange="handleClick">
       <vue-option v-for="option in options" :key="option" :value="option.value">
         <div>{{ option.name }}</div>
       </vue-option>
@@ -26,6 +26,10 @@ export default defineComponent({
   },
   setup() {
     const selectData = ref("alosha6");
+
+    function handleClick(e: string) {
+      selectData.value = e;
+    }
 
     const options = ref([
       { name: "Alisher1", value: "alosha1" },
@@ -55,6 +59,7 @@ export default defineComponent({
     return {
       selectData,
       options,
+      handleClick,
     };
   },
 });

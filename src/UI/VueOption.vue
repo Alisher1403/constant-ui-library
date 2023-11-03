@@ -1,11 +1,16 @@
 <template>
-  <button class="vue-select-option vue-hover" ref="option" :class="{ selected: selected === props.value }" @click="setSelectedValue()">
+  <button
+    class="vue-option vue-select-option vue-hover"
+    ref="option"
+    :class="{ selected: selected === props.value }"
+    @click="setSelectedValue()"
+  >
     <slot></slot>
   </button>
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, onMounted, ref } from "vue";
+import { defineComponent, inject, onMounted, ref, watch } from "vue";
 
 export default defineComponent({
   props: {
@@ -23,6 +28,15 @@ export default defineComponent({
     function setSelectedValue() {
       provider.setOption(props.value, option.value.innerHTML);
     }
+
+    watch(
+      () => [selected.value, props.value],
+      () => {
+        if (selected.value == props.value) {
+          setSelectedValue();
+        }
+      }
+    );
 
     onMounted(() => {
       if (selected.value == props.value) {

@@ -1,10 +1,10 @@
 <template>
   <div class="vue-custom-ui vue-select" v-bind="$attrs">
-    <button class="vue-selected vue-option-selected vue-border-rounded" ref="select" @click="selectClick">
+    <button class="vue-selected vue-option-selected vue-border-rounded" @click.stop="optionClick()">
       <div v-html="selectedOptionContent"></div>
-      <div class="vue-icon vue-icon-chevron" :class="{ 'active-icon': optionOpen }" v-html="icons.chevronDown"></div>
+      <div class="vue-icon vue-icon-chevron" :class="{ 'active-icon': store.id == uid }" v-html="icons.chevronDown"></div>
     </button>
-    <div class="vue-select-container vue-border-rounded" :class="{ 'vue-options-open': optionOpen }">
+    <div class="vue-select-container vue-border-rounded" :class="{ 'vue-options-open': store.id == uid }">
       <div class="vue-select-content" @scroll="scroll()">
         <div class="vue-select-content-options">
           <div class="vue-options">
@@ -18,8 +18,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, provide, ref } from "vue";
+import { defineComponent, onMounted, provide, ref, watch } from "vue";
 import { icons } from "./icons";
+import { store } from "./store";
+
 export default defineComponent({
   props: {
     options: {
@@ -31,26 +33,25 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    const optionOpen = ref(false);
     const selectedOptionContent = ref<string>("");
     const selected = ref<string>(props.value);
-    const select = ref<any>();
+    const uid = Math.random() * 1000;
 
     /*************************************************************/
     const scroller = ref();
+    watch(
+      () => props.value,
+      (val: any) => {
+        selected.value = val;
+        console.log(selected.value);
+      }
+    );
 
     function scroll() {
       console.log(scroller.value);
     }
 
     /*************************************************************/
-    onMounted(() => {
-      console.log(select.value);
-      document.addEventListener("click", () => {
-        optionOpen.value = false;
-      });
-    });
-
     provide("selectProvider", {
       setOption: (value: string, html: string) => {
         selectedOptionContent.value = html;
@@ -60,22 +61,29 @@ export default defineComponent({
       selected,
     });
 
-    function selectClick(e: any) {
-      e.stopPropagation();
-      optionOpen.value = !optionOpen.value;
+    /*************************************************************/
+    function optionClick() {
+      if (store.id == uid) {
+        store.id = 0;
+      } else {
+        store.id = uid;
+      }
     }
 
+    onMounted(() => {
+      document.addEventListener("click", () => (store.id = 0));
+    });
+
     return {
-      optionOpen,
       selected,
       selectedOptionContent,
       props,
       icons,
       scroll,
       scroller,
-      context,
-      select,
-      selectClick,
+      optionClick,
+      store,
+      uid,
     };
   },
 });
